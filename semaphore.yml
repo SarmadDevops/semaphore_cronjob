@@ -14,6 +14,6 @@ blocks:
           commands:
             - |
               for server in 192.168.68.134; do
-                sshpass -p "your_password_here" ssh -o StrictHostKeyChecking=no user@$server \
+                sshpass -p "root" ssh -o StrictHostKeyChecking=no root@$server \
                 "echo '*/15 * * * * /path/to/kill_sngrep.sh' >> /etc/crontab && systemctl restart cron"
               done
