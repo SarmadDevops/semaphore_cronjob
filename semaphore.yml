@@ -13,7 +13,5 @@ blocks:
         - name: Configure Cron Job
           commands:
             - |
-              for server in 192.168.68.134; do
-                sshpass -p "root" ssh -o StrictHostKeyChecking=no root@$server \
-                "echo '*/15 * * * * /path/to/kill_sngrep.sh' >> /etc/crontab && systemctl restart cron"
-              done
+              ansible all -m copy -a "src=kill_sngrep.sh dest=/usr/local/bin/ mode=0755"
+              ansible all -m cron -a "name='Kill sngrep process' minute='*/15' job='/usr/local/bin/kill_sngrep.sh'"
