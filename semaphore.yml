@@ -1,18 +1,10 @@
-version: "v1.0"
-name: Kill sngrep cron job
-
-agent:
-  machine:
-    type: e1-standard-2
-    os_image: ubuntu2204
-
-blocks:
-  - name: Add Cron Job
-    task:
-      jobs:
-        - name: Configure Cron Job
-          commands:
-            - |
-              for server in <server1> <server2> <server3>; do
-                ssh user@$server "echo '*/15 * * * * /path/to/kill_sngrep.sh' >> /etc/crontab"
-              done
+---
+- name: Configure Cron Job to Kill sngrep Process
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Add cron job to kill sngrep process every 15 minutes
+      cron:
+        name: "Kill sngrep process"
+        minute: "*/15"
+        job: "/path/to/kill_sngrep.sh"
